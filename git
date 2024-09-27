@@ -35,7 +35,7 @@ $ cd folder_name/folder_name/       -   To navigate to specific folder
  
 $ cd ..                             -   To navigate to previous folder
 
-$ cd ../..                          -   TO navigate to two previous folder
+$ cd ../..                          -   To navigate to two previous folder
 
 ================================================================================
 1. $ git init
@@ -55,7 +55,7 @@ be hidden.
 You can see the number of available folders in your current folder along with 
 the hidden fields.
 
-P.S. "$ ls" - this command is used to display only non-hidden fields.
+P.S. "$ ls" - this command is used to display only non-hidden folders.
 
 NOTE: This will only initialize a git repository in your working folder but not 
 start tracking your files yet, we have to add files to let git start tracking our
@@ -64,4 +64,232 @@ files, though we can see the files which are tracked and which are not.
 ================================================================================
 3. $ git status 
 
-You can see the list of untracked files in your working folder.                                          
+You can see the list of untracked folders or files from your working folder 
+with their names in red color.
+
+================================================================================
+4. $ git add folder_name_or_file_name 
+
+This will let you add the folder into the git repository along with the files in
+that folder. Now when we check the status of folder we will get all the files or
+folder names in green color indicating that they have been added.
+
+4.1 $ git add *.fileExtension -> to add all files ending with specific extension
+4.2 $ git add *   -> To add all the folders and files in the folder at once.
+
+================================================================================
+Once we perform git add command, all the files won't be added into our
+local repository i.e., because git follow a unique mechanism call staging area
+approach which is nothing but a heap area.
+
+-------> what is staging area mechanism ?
+
+Basically there will be 3 areas through which git work arroud,
+
+1. Local Directory
+2. Staging area
+3. Local repository
+
+Once we perform the git add command all the files will be moved from the working
+directory to staging area and to move them from staging area to local repository
+we have perform other command[Look @Index no# 5].
+
+-------> why a secondary area called staging area, why not directly into local 
+            repository?                                            
+
+Let us assume that you have performed changes in 5 files and you are not sure of
+the fifth file as there may be a chance of few bugs which may create
+vulnerability for other four files and you will fix them in future,so rather 
+adding all 5 files from local directory to staging area, you can choose to stage
+only 4 files and later save them to local repository. Once you are done with bug 
+fixes in the fifth file you can add it to staging area and then save it to local 
+repository which will help us in bug free development.
+
+P.S. It is a standard practice that our commits should be atomic so that we can
+        remove the commits in case of any bugs or code issues.
+
+Basically, Staging area acts as a temporary area between Local directory 
+and Local repository.
+
+================================================================================
+5. $ git commit -m "initial commit"
+
+This command is used to move all the files from the staging area to local 
+repository. 
+
+NOTE: It is a standard practice to provide meaning full message for the commit
+made i.e., what changes have been made or why was the commit for. This is done by
+adding -m "add commit message".
+
+P.S. Once we run the above command the files will only be committed to local 
+repository but not on a remote repository. We have to follow certain steps to 
+add our project over a remote server. We have few vendors like Github, Bit Bucket
+Git Lab etc., who provides free services to add our projects/repositories into their 
+servers making them remote.
+
+Create an account for any of the above mentioned vendor and create a repository
+
+================================================================================
+6. $ git remote add origin https://github.com/shakir-fjd/git-docs.git
+
+The above command Specifies the remote repository for our local repository. The
+url points to a repository of vendor you choose., to do so we need to create a 
+repository and once we create a repository we will get a web url which will be 
+the location for our remote repository.
+
+  Breaking down the command,
+
+$ git remote add <alias> <repo url>
+
+- <alias> is a name which we can be provided to our url, so that rather typing the 
+whole url we can make use of aliased name, we can have any thing as an alias, 
+in my case it is origin which is the standard practice.
+
+================================================================================
+7. $ git remote -v 
+
+It is used to check whether our repository has been added to remote server or not,
+which will in turn return,
+
+<alisa name> <url>  (fetch)
+<alisa name> <url>  (push)
+
+Once we have added remote repository to local repository we have to push the 
+code to our remote repository, but to that we have to provide the authentication
+for the remote repository so that no one can push code to the repository except
+the owner untill provided permissions to others, to do so we need to generate the 
+ssh keys,
+
+$ ssh-keygen
+
+It will generate a private and public key, it will as you to select the 
+foleder where you want to generate the keys, keep it as default as it is standard 
+practice then it will ask you for password let it empty press enter and again enter
+
+
+ssh key will be generated inside your homedirectory/USERS/USERNAME/.ssh
+
+open id_rsa.pub file and copy the key. 
+we need to add that keys in remote repository > settings > deploy key or (SSH keys). 
+Now your remote repository is authenticated with local repository,
+================================================================================
+
+8. $ git diff
+
+This command will compare the previous file and updated file and show the 
+difference between both the files.
+
+Now Imagine you have moved all the files to staging area and you want to compare
+the files in staging are,
+
+8.1 $ git diff --staged -> to check the difference for files in staging area
+
+================================================================================
+
+9. $ git log -> To get the number of commits made, along with user details and 
+                    commit id
+
+================================================================================
+10. $ git show <commitId>  -> To see the changes made towards specifc commit
+                                identified with commit Id.
+
+================================================================================
+11. $ git clone <repository url> -> To add the remote repository into our woking
+                                    directory.
+
+NOTE: Once you run this command it will also initialize the git command, i.e., it
+      it will add the .git directory inside the working directory and also fetches
+      all the meta data and history of all the commits made by any other developers.
+
+================================================================================
+12 $ git push <provided alias name @ point#6> -> To Push the committed data from
+                Local repository to remote repository.
+
+12.1 $ git pull <provided alias name @ point#6> -> To get the updated files to our
+                local repository changed by any other developer.
+
+NOTE: This command will directly add all the code changes made by other developers
+      without giving us the option to go through the changes made, so we have to
+      very specific while using this command or it may result in vulnerabilities
+      and other merge conflicts.
+
+================================================================================
+13. git fetch <provide alias name name @ point#6> -> To get the changes made by
+            other developers into local repository but this command will not merge'
+            all that changes to  our working directory unlike "$ get pull <alias>".
+
+================================================================================
+14. git checkout -> To merge all the updated changes from local repository to 
+                    working directory.
+
+NOTE: Rather using the "$ git pull <provided alias name @ point#6>", it is recommended to use
+      "$ git fetch <alias>" and "$ git checkout" to reduce the merge conflicts.
+
+================================================================================
+
+BRANCHES: All the version control systems provide a powerful feature called
+          Branching, it helps us to create multiple brancehs for our repositories,
+          which in turn helps us in many ways,
+          
+P.S. By default when a commit is made witout specifying a branch name it will
+     add code into the master branch or default brach if you make any branch 
+     as default. Use cases of branches
+
+          1. If we are developing a new feature and pushing the code into master
+             branch it may lead to bugs in master branch ss it is unstable,rather 
+             we can develop it on a new branch and after ensuring it is stable 
+             we can merge it into master branch.
+          2. Suppose multiple teams are working on multiple features and merging 
+             the code into master branch again it will lead to bugs, so once the 
+             code is stable we can merge it to master.
+          3. Let's assume that QA found a bug in the master branch and after testing
+             resolving the but rather adding it to master branch we can create a 
+             new bracnch and after testing it on it we can merge it to master.
+
+NOTE: Whenever we create a new branch and commit the code, history will be at 
+      branch specific level, it won't effect other branches history or shows other
+      branches history.
+================================================================================
+15. $ git branch newBranchName -> To create a new branch
+
+        Run "$ git status" to check the current branch
+
+15.1 $ git branch  -> it will show all available branches
+
+15.2 $ git checkout createdNewBranchName  -> It will switch the branch to provided 
+                                               branch name
+
+NOTE: Whenever you are having any unstaged changes in your working directory and
+      you tend to change the branch, all the changes will be moved to new branch
+      when you perform checkout command.
+
+15.3 $ git checkout -b "new branch name" 
+
+The above example simultaneously creates and checks out ?new-branch?. 
+The -b option is a convenience flag that tells Git to run git branch before 
+running git checkout ?new-branch?.
+
+P.S. With this command if you make any changes in other existing branch and 
+     perform the command it will cut all those changes and add into your new
+     branch.
+
+15.4 $ git push <provided alias name @ point#6> createdBranchName
+            -> This command will push all the code to newly created branch on 
+                remote server.
+
+15.5 $ git pull <provided alias name @ point#6>
+            -> This command will pull all the code added to created branch on 
+                remote server.
+
+15.6 $ git merge branchNameToBeMerged -> To merge the branch code to other 
+                                            branches.
+
+NOTE: When we perform this it will add the code into current branch, so checkout
+      which branch you are in before merging.
+
+15.7 $ git delete -d branchName -> to delete the branch.
+
+15.8 $ git delete -D branchName -> to delete the branch with force.
+
+             
+

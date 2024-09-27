@@ -1,0 +1,18 @@
+
+branch testing using the file git lab,
+
+Added the line on remote server to check the difference between "$ git pull origin" 
+and "$ git fetch origin" then "$ git checkout" to other branch to make sure that our unsaved
+changes to staging area won't get overridden. 
+
+I am making changes to gitlab file in remote server, to see will it override 
+the unsaved changes in working directory. if so I shouldn't see below line,
+
+changes to staging area won't get overridden.
+
+Now I am not saving my file to staging area to see will it override the 
+unsaved changes. 
+
+Now I am making changes to see how "$ git fetch origin" and "$ git checkout" works together.
+
+Adding the changes in remote file to see changes made from remote server using "$ git fetch origin".
